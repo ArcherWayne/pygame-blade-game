@@ -27,18 +27,19 @@ def collision_hero_creep_enemy():
 
 
 def loadingscreen():
-    loadingscreen_surface = pygame.transform.scale(
-        pygame.image.load(random.choice(
-            ['loadingscreen/wallhaven (1).jpg',
-             'loadingscreen/wallhaven (1).png',
-             'loadingscreen/wallhaven (2).jpg',
-             'loadingscreen/wallhaven (2).png',
-             'loadingscreen/wallhaven (3).jpg',
-             'loadingscreen/wallhaven (3).png',
-             'loadingscreen/wallhaven (4).jpg',
-             'loadingscreen/wallhaven (5).jpg']
-        )).convert(), (WIN_WIDTH, WIN_HEIGTH)
-    )
+    # loadingscreen_surface = pygame.transform.scale(
+    #     pygame.image.load(random.choice(
+    #         ['assets/loadingscreen/wallhaven (1).jpg',
+    #          'assets/loadingscreen/wallhaven (1).png',
+    #          'assets/loadingscreen/wallhaven (2).jpg',
+    #          'assets/loadingscreen/wallhaven (2).png',
+    #          'assets/loadingscreen/wallhaven (3).jpg',
+    #          'assets/loadingscreen/wallhaven (3).png',
+    #          'assets/loadingscreen/wallhaven (4).jpg',
+    #          'assets/loadingscreen/wallhaven (5).jpg']
+    #     )).convert(), (WIN_WIDTH, WIN_HEIGTH)
+    # )
+    loadingscreen_surface = pygame.transform.scale(pygame.image.load('assets/loadingscreen/dota2-loadingscreen.png').convert(), (WIN_WIDTH, WIN_HEIGTH))
     loadingscreen_rect = loadingscreen_surface.get_rect(center=(WIN_WIDTH / 2, WIN_HEIGTH / 2))
     screen.blit(loadingscreen_surface, loadingscreen_rect)
 
@@ -53,7 +54,7 @@ background_surface = pygame.transform.scale(
     pygame.image.load('assets/ground.png').convert(), (WIN_WIDTH, WIN_HEIGTH))
 background_rect = background_surface.get_rect(center=(WIN_WIDTH / 2, WIN_HEIGTH / 2))
 clock = pygame.time.Clock()
-font = pygame.font.Font('font/Pixeltype.ttf', 50)
+font = pygame.font.Font('assets/font/Pixeltype.ttf', 50)
 
 # Groups
 hero = pygame.sprite.GroupSingle()  # 定义hero这样一个单group 用来放玩家角色
@@ -107,7 +108,7 @@ def main():
             screen.fill((94, 129, 162))
             # hero.
 
-            # loadingscreen()
+            loadingscreen()
 
         pygame.display.update()
         clock.tick(FPS)
