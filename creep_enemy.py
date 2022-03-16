@@ -52,10 +52,6 @@ class Creep_enemy(pygame.sprite.Sprite):
             self.image = self.creep_enemy_surface
             self.rect.x -= self.movement_speed
 
-
-    def seek(self):
-        pass
-
     def destroy(self):
         if self.rect.x <= -100:
             self.kill()
