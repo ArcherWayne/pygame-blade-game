@@ -1,7 +1,26 @@
 WIN_WIDTH = 1400
 WIN_HEIGTH = 800
-start_time = 0
+
 FPS = 60
 
+# hero stats
+# __init__(self, name, health, movement_speed, damage, forswing, backswing, flag_moving)
 HERO_HEIGHT = 60
 HERO_WIDTH = 60
+HERO_HEALTH = 120
+HERO_MOVEMENT_SPEED = 10
+HERO_DAMAGE = 20
+HERO_FORESWING = 0.1
+HERO_BACKSWING = 0.2
+
+
+# creep stats
+# __init__(self, health, movement_speed, damage, forswing, backswing)
+CREEP_HEIGHT = 60
+CREEP_WIDTH = 60
+CREEP_HEALTH = 50
+CREEP_MOVEMENT_SPEED = 10
+CREEP_DAMAGE = 5
+CREEP_FORESWING = 0.2
+CREEP_BACKSWING = 0.2
+# tower stats

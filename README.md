@@ -6,6 +6,8 @@
  
  *250sbxm*
 
+ *妈的怎么有这么多bug*
+
 ***写nm的寻路系统, 滚***
 
 # 中文文档
@@ -30,6 +32,12 @@
 - 当小兵与英雄或防御塔的距离小于一定值时, 小兵处于仇恨状态, 向英雄或防御塔进行移动. 
 - 当小兵与英雄或防御塔的距离小于小兵攻击范围时, 小兵将对英雄或防御塔进行攻击. 攻击的对象由仇恨的目标决定. 
   >小兵对英雄的仇恨优先级高于小兵对防御塔的仇恨, 但是若???? 若什么若, 仇恨系统还没想好, 嘿几把
+  > 
+#### 小兵的仇恨系统
+*待补充*
+
+#### 小兵的刷兵逻辑
+*待补充*
 
 ### 防御塔
 - 存在两座防御塔, 自动对最近的小兵单位进行弹道攻击. 
@@ -41,4 +49,33 @@
 - 当小兵的血量是由英雄的攻击置为0或小于0时, 英雄获得一定金额的金钱奖励. 
 
 # English Documentation
-*i cAnNoT sPeAk eNgliSh, fuCk yOu*
+
+## The intended game mechanics
+
+### HERO
+
+- There is a hero of which the player controls. 
+- The hero contains attributes such as health, damage, movement speed, attacking foreswing and attacking backswing.
+- The hero has an attacking range where the hero will move into when right-clicked on a creep and then release a projectile.
+- The projectile has a speed attribute.
+- The projectile will move at a constant speed with the right-clicked creep as the target until a collision occurs between the two, then the right-clicked creep receives damage.
+  > There is melee hero with very low, but not 0, attacking range, whose projectile speed is maximum. That is, no delay between initiating an attack and landing an attack.
+
+### CREEP
+- 存在多个小兵, 是游戏事件按时间生成的角色.
+- 小兵存在血量, 伤害, 移速, 攻击距离, 攻击前摇和攻击后摇等属性. 
+  > 小兵的属性可能随游戏设计变化而修改. 
+- 小兵存在非仇恨状态和仇恨状态两个不同的状态. 
+- 当小兵与英雄或防御塔的距离大于一定值时, 小兵处于非仇恨状态, 时刻匀速向屏幕左边移动. 
+- 当小兵与英雄或防御塔的距离小于一定值时, 小兵处于仇恨状态, 向英雄或防御塔进行移动. 
+- 当小兵与英雄或防御塔的距离小于小兵攻击范围时, 小兵将对英雄或防御塔进行攻击. 攻击的对象由仇恨的目标决定. 
+  >小兵对英雄的仇恨优先级高于小兵对防御塔的仇恨, 但是若???? 若什么若, 仇恨系统还没想好, 嘿几把
+
+### DEFENSE TOWER
+- 存在两座防御塔, 自动对最近的小兵单位进行弹道攻击. 
+- 防御塔存在血量, 伤害, 攻击间隔, 弹道速度等属性. 
+- 防御塔可以使用金钱进行升级. 每次升级恢复一定的血量. 
+
+### LAST HIT
+- 补刀系统是游戏的核心玩法.
+- 当小兵的血量是由英雄的攻击置为0或小于0时, 英雄获得一定金额的金钱奖励. 

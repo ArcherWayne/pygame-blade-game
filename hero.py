@@ -1,15 +1,16 @@
 import pygame
-import math
 from settings import *
+import math
+
 
 class Hero(pygame.sprite.Sprite):
-    def __init__(self, name, health, movement_speed, damage, forswing, backswing, flag_moving):
+    def __init__(self, name, health, movement_speed, damage, foreswing, backswing, flag_moving):
         super(Hero, self).__init__()
         self.name = name
         self.health = health
         self.movement_speed = movement_speed
         self.damage = damage
-        self.foreswing = forswing
+        self.foreswing = foreswing
         self.backswing = backswing
         self.flag_moving = flag_moving
 

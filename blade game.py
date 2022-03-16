@@ -1,16 +1,29 @@
 import random
 import pygame
 from settings import *
+from tower import Tower
 from hero import Hero
 from creep_enemy import Creep_enemy
 
+
 # from creep_hero import Creep_hero
 
-def display_time():
+def display_time(start_time):
     current_time = int(pygame.time.get_ticks() / 1000) - start_time
     time_surface = font.render(f'Time:{current_time}', False, (64, 64, 64))
     time_rect = time_surface.get_rect(center=(WIN_WIDTH / 2, 100))
     screen.blit(time_surface, time_rect)
+    return current_time
+
+
+def loadingscreen():
+    loadingscreen_surface = pygame.transform.scale(
+        pygame.image.load('assets/loadingscreen/dota2-loadingscreen.png').convert(), (WIN_WIDTH, WIN_HEIGTH))
+    loadingscreen_rect = loadingscreen_surface.get_rect(center=(WIN_WIDTH / 2, WIN_HEIGTH / 2))
+    screen.blit(loadingscreen_surface, loadingscreen_rect)
+    endinfo_surface = font.render(f'HEI JI BAAAA', False, (115, 34, 16))
+    endinfo_rect = endinfo_surface.get_rect(center=(WIN_WIDTH / 2, 100))
+    screen.blit(endinfo_surface, endinfo_rect)
 
 
 def collision_hero_creep_enemy():
@@ -26,24 +39,6 @@ def collision_hero_creep_enemy():
     return True
 
 
-def loadingscreen():
-    # loadingscreen_surface = pygame.transform.scale(
-    #     pygame.image.load(random.choice(
-    #         ['assets/loadingscreen/wallhaven (1).jpg',
-    #          'assets/loadingscreen/wallhaven (1).png',
-    #          'assets/loadingscreen/wallhaven (2).jpg',
-    #          'assets/loadingscreen/wallhaven (2).png',
-    #          'assets/loadingscreen/wallhaven (3).jpg',
-    #          'assets/loadingscreen/wallhaven (3).png',
-    #          'assets/loadingscreen/wallhaven (4).jpg',
-    #          'assets/loadingscreen/wallhaven (5).jpg']
-    #     )).convert(), (WIN_WIDTH, WIN_HEIGTH)
-    # )
-    loadingscreen_surface = pygame.transform.scale(pygame.image.load('assets/loadingscreen/dota2-loadingscreen.png').convert(), (WIN_WIDTH, WIN_HEIGTH))
-    loadingscreen_rect = loadingscreen_surface.get_rect(center=(WIN_WIDTH / 2, WIN_HEIGTH / 2))
-    screen.blit(loadingscreen_surface, loadingscreen_rect)
-
-
 pygame.init()
 
 # background
@@ -56,10 +51,10 @@ background_rect = background_surface.get_rect(center=(WIN_WIDTH / 2, WIN_HEIGTH 
 clock = pygame.time.Clock()
 font = pygame.font.Font('assets/font/Pixeltype.ttf', 50)
 
+
 # Groups
 hero = pygame.sprite.GroupSingle()  # 定义hero这样一个单group 用来放玩家角色
-hero.add(Hero('example hero', 110, 10, 20, 0.3, 0.1, 0))  # 在hero这个group中添加Hero这个类, 之后, 这个group中就有了这个类的实例
-# __init__(self, name, health, movement_speed, damage, forswing, backswing, flag_moving)
+hero.add(Hero('example hero', HERO_HEALTH, HERO_MOVEMENT_SPEED, HERO_DAMAGE, HERO_FORESWING, HERO_BACKSWING, 0))  # 在hero这个group中添加Hero这个类, 之后, 这个group中就有了这个类的实例
 creep_enemy_group = pygame.sprite.Group()
 
 creep_enemy_timer = pygame.USEREVENT + 1
@@ -67,9 +62,11 @@ pygame.time.set_timer(creep_enemy_timer, 3000)
 
 
 def main():
+    # time = 0
+    start_time = 0
     game_active = True
     while True:
-        # event loop
+            # event loop
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -79,11 +76,14 @@ def main():
             if game_active:
                 if event.type == creep_enemy_timer:
                     for i in range(5):
-                        creep_enemy_group.add(Creep_enemy(50, 3, random.randint(19, 25), 0.4, 0.2, 200 + i * 80))
-                    # __init__(self, health, movement_speed, damage, forswing, backswing)
+                        creep_enemy_group.add(Creep_enemy(CREEP_HEALTH, CREEP_MOVEMENT_SPEED, CREEP_DAMAGE, CREEP_FORESWING, CREEP_BACKSWING, 200 + i * 80))
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
+                    game_active = 0
+                    print(hero.sprite.health)
             else:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     game_active = True
+                    hero.sprite.rect.midbottom = (250, 400)
                     hero.sprite.health = 110  # 重置血量
                     start_time = int(pygame.time.get_ticks() / 1000)
 
@@ -95,19 +95,16 @@ def main():
             # tuple 鼠标按键和鼠标位置
             hero.draw(screen)
             hero.update()
-
-            # print(hero.sprite.rect.x, hero.sprite.rect.y)
             creep_enemy_group.draw(screen)
             creep_enemy_group.update([hero.sprite.rect.x, hero.sprite.rect.y])
             # update实际上是类的成员函数的集合, 调用了update函数就相当于调用了类里面update函数下所有的成员函数
 
-            display_time()
+            time = display_time(start_time)
             game_active = collision_hero_creep_enemy()
+            if hero.sprite.health <= 0: game_active = 0
 
         else:
             screen.fill((94, 129, 162))
-            # hero.
-
             loadingscreen()
 
         pygame.display.update()

@@ -1,21 +1,18 @@
-import math
-import random
-
 import pygame
-from random import randint
-
+from settings import *
+import math
 
 class Creep_enemy(pygame.sprite.Sprite):
-    def __init__(self, health, movement_speed, damage, forswing, backswing, spawn_location):
+    def __init__(self, health, movement_speed, damage, foreswing, backswing, spawn_location):
         super(Creep_enemy, self).__init__()
         self.health = health
         self.movement_speed = movement_speed
         self.damage = damage
-        self.foreswing = forswing
+        self.foreswing = foreswing
         self.backswing = backswing
 
         self.creep_enemy_surface = pygame.transform.scale(
-            pygame.image.load('assets/creep_enemy.png').convert_alpha(), (60, 60)
+            pygame.image.load('assets/creep_enemy.png').convert_alpha(), (CREEP_HEIGHT, CREEP_WIDTH)
         )
         self.image = self.creep_enemy_surface
         self.rect = self.image.get_rect(center=(1500, spawn_location))
