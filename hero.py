@@ -14,7 +14,7 @@ class Hero(pygame.sprite.Sprite):
         self.flag_moving = flag_moving
 
         self.hero_surface = pygame.transform.scale(
-            pygame.image.load('heroes/hero 1.png').convert_alpha(), (HERO_HEIGHT, HERO_WIDTH)
+            pygame.image.load('assets/graphics/heroes/hero 45.png').convert_alpha(), (HERO_HEIGHT, HERO_WIDTH)
         )
         # 以下两行只能名字叫做image和rect, 这是pygame定义的draw函数中规定的
         self.image = self.hero_surface
