@@ -19,8 +19,7 @@ class Creep_enemy(pygame.sprite.Sprite):
 
     def movement(self, hero_pos):
         distance_hero_creep = math.sqrt(math.pow(hero_pos[0] - self.rect.x, 2) + math.pow(hero_pos[1] - self.rect.y, 2))
-        if distance_hero_creep <= 300:
-
+        if 300 >= distance_hero_creep >= 60:
             self.creep_enemy_surface = pygame.transform.scale(
                 pygame.image.load('assets/graphics/Player/jump.png').convert_alpha(), (60, 60)
             )
@@ -44,6 +43,9 @@ class Creep_enemy(pygame.sprite.Sprite):
                 self.rect.x += x_speed
             elif x_distance > 0:
                 self.rect.x -= x_speed
+
+        if distance_hero_creep < 60:
+            pass
 
         else:
             self.creep_enemy_surface = pygame.transform.scale(

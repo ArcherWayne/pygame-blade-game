@@ -51,10 +51,10 @@ background_rect = background_surface.get_rect(center=(WIN_WIDTH / 2, WIN_HEIGTH 
 clock = pygame.time.Clock()
 font = pygame.font.Font('assets/font/Pixeltype.ttf', 50)
 
-
 # Groups
 hero = pygame.sprite.GroupSingle()  # 定义hero这样一个单group 用来放玩家角色
-hero.add(Hero('example hero', HERO_HEALTH, HERO_MOVEMENT_SPEED, HERO_DAMAGE, HERO_FORESWING, HERO_BACKSWING, 0))  # 在hero这个group中添加Hero这个类, 之后, 这个group中就有了这个类的实例
+hero.add(Hero('example hero', HERO_HEALTH, HERO_MOVEMENT_SPEED, HERO_DAMAGE, HERO_FORESWING, HERO_BACKSWING,
+              0))  # 在hero这个group中添加Hero这个类, 之后, 这个group中就有了这个类的实例
 creep_enemy_group = pygame.sprite.Group()
 
 creep_enemy_timer = pygame.USEREVENT + 1
@@ -66,7 +66,7 @@ def main():
     start_time = 0
     game_active = True
     while True:
-            # event loop
+        # event loop
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -76,7 +76,9 @@ def main():
             if game_active:
                 if event.type == creep_enemy_timer:
                     for i in range(5):
-                        creep_enemy_group.add(Creep_enemy(CREEP_HEALTH, CREEP_MOVEMENT_SPEED, CREEP_DAMAGE, CREEP_FORESWING, CREEP_BACKSWING, 200 + i * 80))
+                        creep_enemy_group.add(
+                            Creep_enemy(CREEP_HEALTH, CREEP_MOVEMENT_SPEED, CREEP_DAMAGE, CREEP_FORESWING,
+                                        CREEP_BACKSWING, 200 + i * 80))
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
                     game_active = 0
                     print(hero.sprite.health)
@@ -96,7 +98,8 @@ def main():
             hero.draw(screen)
             hero.update()
             creep_enemy_group.draw(screen)
-            creep_enemy_group.update([hero.sprite.rect.x, hero.sprite.rect.y])
+            # creep_enemy_group.update([hero.sprite.rect.x, hero.sprite.rect.x])
+            creep_enemy_group.update(hero.sprite.rect.midbottom)
             # update实际上是类的成员函数的集合, 调用了update函数就相当于调用了类里面update函数下所有的成员函数
 
             time = display_time(start_time)
