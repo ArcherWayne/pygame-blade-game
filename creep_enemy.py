@@ -2,6 +2,7 @@ import pygame
 from settings import *
 import math
 
+
 class Creep_enemy(pygame.sprite.Sprite):
     def __init__(self, health, movement_speed, damage, foreswing, backswing, spawn_location):
         super(Creep_enemy, self).__init__()
@@ -29,10 +30,10 @@ class Creep_enemy(pygame.sprite.Sprite):
             x_distance = self.rect.midbottom[0] - hero_pos[0]
 
             y_speed = int(math.sqrt(
-                math.pow(self.movement_speed, 2) / (math.pow((x_distance/y_distance),2)+1)
+                math.pow(self.movement_speed, 2) / (math.pow((x_distance / y_distance), 2) + 1)
             )) if y_distance != 0 else 0
             x_speed = int(math.sqrt(
-                math.pow(self.movement_speed, 2) / (math.pow((y_distance/x_distance),2)+1)
+                math.pow(self.movement_speed, 2) / (math.pow((y_distance / x_distance), 2) + 1)
             )) if x_distance != 0 else 0
 
             if y_distance < 0:

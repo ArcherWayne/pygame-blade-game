@@ -56,6 +56,9 @@ hero = pygame.sprite.GroupSingle()  # 定义hero这样一个单group 用来放�
 hero.add(Hero('example hero', HERO_HEALTH, HERO_MOVEMENT_SPEED, HERO_DAMAGE, HERO_FORESWING, HERO_BACKSWING,
               0))  # 在hero这个group中添加Hero这个类, 之后, 这个group中就有了这个类的实例
 creep_enemy_group = pygame.sprite.Group()
+tower = pygame.sprite.Group()
+tower.add(Tower(TOWER_HEALTH, TOWER_DAMAGE))
+# tower2 = tower.add(Tower(TOWER_HEALTH, TOWER_DAMAGE))
 
 creep_enemy_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(creep_enemy_timer, 3000)
@@ -95,12 +98,14 @@ def main():
             screen.blit(background_surface, background_rect)
 
             # tuple 鼠标按键和鼠标位置
+            tower.draw(screen)
+            tower.update()
             hero.draw(screen)
             hero.update()
             creep_enemy_group.draw(screen)
-            # creep_enemy_group.update([hero.sprite.rect.x, hero.sprite.rect.x])
             creep_enemy_group.update(hero.sprite.rect.midbottom)
             # update实际上是类的成员函数的集合, 调用了update函数就相当于调用了类里面update函数下所有的成员函数
+
 
             time = display_time(start_time)
             # game_active = collision_hero_creep_enemy()
