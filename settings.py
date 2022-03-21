@@ -1,7 +1,10 @@
+import pygame
+
 WIN_WIDTH = 1400
 WIN_HEIGTH = 800
 
 FPS = 60
+screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGTH))
 
 # hero stats
 # __init__(self, name, health, movement_speed, damage, forswing, backswing, flag_moving)
@@ -30,3 +33,6 @@ TOWER_WIDTH = 205
 TOWER_HEALTH = 500
 TOWER_DAMAGE = 10
 
+# colors
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)

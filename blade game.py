@@ -27,7 +27,7 @@ def loadingscreen():
 
 
 def collision_hero_creep_enemy():
-    c_list = pygame.sprite.spritecollide(hero.sprite, creep_enemy_group, False)
+    c_list = pygame.sprite.spritecollide(hero.sprite, creep_enemy_group, True)
     if c_list:
         hero.sprite.health_reduce(c_list[0].damage)
         print(hero.sprite.health)
@@ -42,7 +42,6 @@ def collision_hero_creep_enemy():
 pygame.init()
 
 # background
-screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGTH))
 pygame.display.set_caption('blade game')
 pygame.display.set_icon(pygame.image.load('assets/blade game.png'))
 background_surface = pygame.transform.scale(
@@ -89,7 +88,7 @@ def main():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     game_active = True
                     hero.sprite.rect.midbottom = (250, 400)
-                    hero.sprite.health = 110  # 重置血量
+                    hero.sprite.health = HERO_HEALTH  # 重置血量
                     start_time = int(pygame.time.get_ticks() / 1000)
 
         # actual game loop
@@ -108,7 +107,7 @@ def main():
 
 
             time = display_time(start_time)
-            # game_active = collision_hero_creep_enemy()
+            game_active = collision_hero_creep_enemy()
             if hero.sprite.health <= 0: game_active = 0
 
         else:

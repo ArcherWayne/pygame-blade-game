@@ -41,10 +41,10 @@ class Hero(pygame.sprite.Sprite):
             x_distance = self.rect.midbottom[0] - target_pos[0]
 
             y_speed = int(math.sqrt(
-                math.pow(self.movement_speed, 2) / (math.pow((x_distance/y_distance),2)+1)
+                math.pow(self.movement_speed, 2) / (math.pow((x_distance / y_distance), 2) + 1)
             )) if y_distance != 0 else 0
             x_speed = int(math.sqrt(
-                math.pow(self.movement_speed, 2) / (math.pow((y_distance/x_distance),2)+1)
+                math.pow(self.movement_speed, 2) / (math.pow((y_distance / x_distance), 2) + 1)
             )) if x_distance != 0 else 0
 
             if y_distance < 0:
@@ -57,8 +57,9 @@ class Hero(pygame.sprite.Sprite):
                 self.rect.x -= x_speed
             # if abs(self.rect.x-target_pos[0]) < x_speed or \
             #         abs(self.rect.y-target_pos[1]) < y_speed:
-            if math.sqrt(math.pow(self.rect.midbottom[0]-target_pos[0],2)+math.pow(self.rect.midbottom[1]-target_pos[1],2)) < self.movement_speed:
-                self.rect.x = target_pos[0] - HERO_WIDTH/2
+            if math.sqrt(math.pow(self.rect.midbottom[0] - target_pos[0], 2) + math.pow(
+                    self.rect.midbottom[1] - target_pos[1], 2)) < self.movement_speed:
+                self.rect.x = target_pos[0] - HERO_WIDTH / 2
                 self.rect.y = target_pos[1] - HERO_HEIGHT
             if self.rect.midbottom == target_pos:
                 self.flag_moving = 0
@@ -67,13 +68,18 @@ class Hero(pygame.sprite.Sprite):
         pass
 
     def animation(self):
-        pass
+        if self.flag_moving == 1:
+            pass
+
+    def draw_health_bar(self):
+        health_bar_background = pygame.Rect(self.rect.midtop[0]-42, self.rect.midtop[1]-22, 84, 12)
+        health_bar_content = pygame.Rect(self.rect.midtop[0]-40, self.rect.midtop[1]-20, 80*(self.health/HERO_HEALTH), 8)
+        pygame.draw.rect(screen, BLACK, health_bar_background)
+        pygame.draw.rect(screen, RED, health_bar_content)
 
     def health_reduce(self, creep_damage):
         self.health -= creep_damage
 
-    def attacking(self):
-        pass
-
     def update(self):
+        self.draw_health_bar()
         self.movement()
