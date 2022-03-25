@@ -1,7 +1,7 @@
 import pygame
 from settings import *
 import math
-
+import hero
 
 class Creep_enemy(pygame.sprite.Sprite):
     def __init__(self, health, movement_speed, damage, foreswing, backswing, spawn_location):
@@ -55,10 +55,30 @@ class Creep_enemy(pygame.sprite.Sprite):
             self.image = self.creep_enemy_surface
             self.rect.x -= self.movement_speed
 
+
+
+    def draw_health_bar(self):
+        health_bar_background = pygame.Rect(self.rect.midtop[0] - 32, self.rect.midtop[1] - 22, 64, 12)
+        health_bar_content = pygame.Rect(self.rect.midtop[0] - 30, self.rect.midtop[1] - 20,
+                                         60 * (self.health / CREEP_HEALTH), 8)
+        pygame.draw.rect(screen, BLACK, health_bar_background)
+        pygame.draw.rect(screen, RED, health_bar_content)
+
     def destroy(self):
         if self.rect.x <= -100:
             self.kill()
 
+        if self.health <= 0:
+            self.kill()
+
+    def attack(self):
+        pass
+
+
+    def health_reduce(self, hero_damage):
+        self.health -= hero_damage
+
     def update(self, hero_pos):
         self.movement(hero_pos)
+        self.draw_health_bar()
         self.destroy()

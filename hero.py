@@ -1,6 +1,7 @@
 import pygame
 from settings import *
 import math
+import creep_enemy
 
 
 class Hero(pygame.sprite.Sprite):
@@ -64,7 +65,7 @@ class Hero(pygame.sprite.Sprite):
             if self.rect.midbottom == target_pos:
                 self.flag_moving = 0
 
-    def attacking(self):
+    def attack(self):
         pass
 
     def animation(self):
@@ -72,8 +73,9 @@ class Hero(pygame.sprite.Sprite):
             pass
 
     def draw_health_bar(self):
-        health_bar_background = pygame.Rect(self.rect.midtop[0]-42, self.rect.midtop[1]-22, 84, 12)
-        health_bar_content = pygame.Rect(self.rect.midtop[0]-40, self.rect.midtop[1]-20, 80*(self.health/HERO_HEALTH), 8)
+        health_bar_background = pygame.Rect(self.rect.midtop[0] - 42, self.rect.midtop[1] - 22, 84, 12)
+        health_bar_content = pygame.Rect(self.rect.midtop[0] - 40, self.rect.midtop[1] - 20,
+                                         80 * (self.health / HERO_HEALTH), 8)
         pygame.draw.rect(screen, BLACK, health_bar_background)
         pygame.draw.rect(screen, RED, health_bar_content)
 

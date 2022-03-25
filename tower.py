@@ -14,5 +14,8 @@ class Tower(pygame.sprite.Sprite):
         self.image = self.tower_surface
         self.rect = self.image.get_rect(center=(200, 600))
 
+    def attack(self):
+        pass
+
     def update(self):
         pass

@@ -27,17 +27,12 @@ def loadingscreen():
 
 
 def collision_hero_creep_enemy():
-    c_list = pygame.sprite.spritecollide(hero.sprite, creep_enemy_group, True)
+    c_list = pygame.sprite.spritecollide(hero.sprite, creep_enemy_group, False)
     if c_list:
         hero.sprite.health_reduce(c_list[0].damage)
+        c_list[0].health_reduce(hero.sprite.damage)
         print(hero.sprite.health)
-        # .后面没有所需要的参数是因为pycharm编辑器
-        # 血量为零 游戏停止
-        if hero.sprite.health <= 0:
-            creep_enemy_group.empty()
-            return False
-    return True
-
+        print(c_list[0].health)
 
 pygame.init()
 
@@ -82,8 +77,7 @@ def main():
                             Creep_enemy(CREEP_HEALTH, CREEP_MOVEMENT_SPEED, CREEP_DAMAGE, CREEP_FORESWING,
                                         CREEP_BACKSWING, 200 + i * 80))
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
-                    game_active = 0
-                    print(hero.sprite.health)
+                    hero.sprite.health = 0
             else:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     game_active = True
@@ -105,9 +99,9 @@ def main():
             creep_enemy_group.update(hero.sprite.rect.midbottom)
             # update实际上是类的成员函数的集合, 调用了update函数就相当于调用了类里面update函数下所有的成员函数
 
-
             time = display_time(start_time)
-            game_active = collision_hero_creep_enemy()
+            collision_hero_creep_enemy()
+            # game_active = collision_hero_creep_enemy()
             if hero.sprite.health <= 0: game_active = 0
 
         else:
