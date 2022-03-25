@@ -14,3 +14,5 @@
 # 创建一个small blade game
 
 完成动画效果和攻击效果: 核心是读条!!!
+
+添加debug_info函数
