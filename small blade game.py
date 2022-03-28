@@ -21,7 +21,7 @@ class Hero(pygame.sprite.Sprite):
         )
         # 以下两行只能名字叫做image和rect, 这是pygame定义的draw函数中规定的
         self.image = self.hero_surface
-        self.rect = self.image.get_rect(center=(250, 400))
+        self.rect = self.image.get_rect(center=(WIN_WIDTH / 2, WIN_HEIGTH / 2))
 
     def movement(self):
         # 每帧移动0.1秒, 更新后又重新定位为原来的位置, 所以一定要数值比1 大(能否为比1大的小数呢)
@@ -80,8 +80,8 @@ class Hero(pygame.sprite.Sprite):
         pygame.draw.rect(screen, BLACK, health_bar_background)
         pygame.draw.rect(screen, RED, health_bar_content)
 
-    # def health_reduce(self, creep_damage):
-    #     self.health -= creep_damage
+    def health_reduce(self, creep_damage):
+        self.health -= creep_damage
 
     def update(self):
         self.draw_health_bar()
@@ -99,7 +99,7 @@ class Creep_enemy(pygame.sprite.Sprite):
             pygame.image.load('assets/creep_enemy.png').convert_alpha(), (CREEP_HEIGHT, CREEP_WIDTH)
         )
         self.image = self.creep_enemy_surface
-        self.rect = self.image.get_rect(center=(spawn_location))
+        self.rect = self.image.get_rect(center=spawn_location)
 
         self.health_reduce_index = 0
 
@@ -125,17 +125,6 @@ class Creep_enemy(pygame.sprite.Sprite):
                 self.rect.x += x_speed
             elif x_distance > 0:
                 self.rect.x -= x_speed
-
-    #
-    #     if distance_hero_creep < 60:
-    #         pass
-    #
-    #     else:
-    #         self.creep_enemy_surface = pygame.transform.scale(
-    #             pygame.image.load('assets/creep_enemy.png').convert_alpha(), (60, 60)
-    #         )
-    #         self.image = self.creep_enemy_surface
-    #         self.rect.x -= self.movement_speed
 
     def draw_health_bar(self):
         health_bar_background = pygame.Rect(self.rect.midtop[0] - 32, self.rect.midtop[1] - 22, 64, 12)
@@ -174,7 +163,18 @@ class Creep_enemy(pygame.sprite.Sprite):
         self.destroy()
 
 
-# 参考clear code
+def collision_hero_creep_enemy():
+    collision_index = 0
+    # print(collision_index)
+    c_list = pygame.sprite.spritecollide(hero.sprite, creep_enemy_group, False)
+    if c_list:
+        collision_index += 1
+    else:
+        collision_index = 0
+    if collision_index >= 60:
+        collision_index = 0
+    if c_list and collision_index == 0:
+        hero.sprite.health_reduce(c_list[0].damage)
 
 
 pygame.init()
@@ -195,7 +195,7 @@ hero.add(Hero('example hero', HERO_HEALTH, HERO_MOVEMENT_SPEED, HERO_DAMAGE, HER
 creep_enemy_group = pygame.sprite.Group()
 
 creep_enemy_timer = pygame.USEREVENT + 1
-pygame.time.set_timer(creep_enemy_timer, 3000)
+pygame.time.set_timer(creep_enemy_timer, 1500)
 
 
 def main():
@@ -218,9 +218,10 @@ def main():
             else:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     game_active = True
-                    hero.sprite.rect.midbottom = (250, 400)
+                    hero.sprite.rect.center = (WIN_WIDTH / 2, WIN_HEIGTH / 2)
                     hero.sprite.health = HERO_HEALTH  # 重置血量
-                    start_time = int(pygame.time.get_ticks() / 1000)
+                    creep_enemy_group.empty()
+                    # start_time = int(pygame.time.get_ticks() / 1000)
 
         # actual game loop
         if game_active:
@@ -234,8 +235,10 @@ def main():
             creep_enemy_group.update(hero.sprite.rect.midbottom)
             # update实际上是类的成员函数的集合, 调用了update函数就相当于调用了类里面update函数下所有的成员函数
 
-            # game_active = collision_hero_creep_enemy()
-            if hero.sprite.health <= 0: game_active = 0
+            collision_hero_creep_enemy()
+
+            if hero.sprite.health <= 0:
+                game_active = 0
 
         else:
             screen.fill((94, 129, 162))

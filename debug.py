@@ -1,5 +1,5 @@
 import pygame
 
 
-def debug():
+def debug(info):
     pass
