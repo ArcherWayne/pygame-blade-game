@@ -2,7 +2,7 @@ from settings import *
 import pygame
 import math
 import random
-import debug
+from debug import debug
 
 
 class Hero(pygame.sprite.Sprite):
@@ -164,7 +164,8 @@ class Creep_enemy(pygame.sprite.Sprite):
 
 
 def collision_hero_creep_enemy():
-    collision_index = 0
+    collision_index = 0# 这里的c_index可能要作为creep类变量
+    debug(collision_index)
     # print(collision_index)
     c_list = pygame.sprite.spritecollide(hero.sprite, creep_enemy_group, False)
     if c_list:
