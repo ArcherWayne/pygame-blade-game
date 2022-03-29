@@ -94,6 +94,7 @@ class Creep_enemy(pygame.sprite.Sprite):
         self.health = health
         self.movement_speed = movement_speed
         self.damage = damage
+        self.collision_index = 0
 
         self.creep_enemy_surface = pygame.transform.scale(
             pygame.image.load('assets/creep_enemy.png').convert_alpha(), (CREEP_HEIGHT, CREEP_WIDTH)
@@ -125,6 +126,11 @@ class Creep_enemy(pygame.sprite.Sprite):
                 self.rect.x += x_speed
             elif x_distance > 0:
                 self.rect.x -= x_speed
+
+    def attack_interval(self):
+        debug(self.collision_index)
+        if self.collision_index >= 60:
+            self.collision_index = 0
 
     def draw_health_bar(self):
         health_bar_background = pygame.Rect(self.rect.midtop[0] - 32, self.rect.midtop[1] - 22, 64, 12)
@@ -158,24 +164,20 @@ class Creep_enemy(pygame.sprite.Sprite):
 
     def update(self, hero_pos):
         self.movement(hero_pos)
+        self.attack_interval()
         self.health_reduce()
         self.draw_health_bar()
         self.destroy()
 
 
 def collision_hero_creep_enemy():
-    collision_index = 0# 这里的c_index可能要作为creep类变量
-    debug(collision_index)
     # print(collision_index)
     c_list = pygame.sprite.spritecollide(hero.sprite, creep_enemy_group, False)
-    if c_list:
-        collision_index += 1
-    else:
-        collision_index = 0
-    if collision_index >= 60:
-        collision_index = 0
-    if c_list and collision_index == 0:
+    if c_list and c_list[0].collision_index == 0:
         hero.sprite.health_reduce(c_list[0].damage)
+        c_list[0].collision_index += 1
+    elif c_list:
+        c_list[0].collision_index += 1
 
 
 pygame.init()
@@ -230,10 +232,10 @@ def main():
             screen.blit(background_surface, background_rect)
 
             # tuple 鼠标按键和鼠标位置
-            hero.draw(screen)
-            hero.update()
             creep_enemy_group.draw(screen)
             creep_enemy_group.update(hero.sprite.rect.midbottom)
+            hero.draw(screen)
+            hero.update()
             # update实际上是类的成员函数的集合, 调用了update函数就相当于调用了类里面update函数下所有的成员函数
 
             collision_hero_creep_enemy()
