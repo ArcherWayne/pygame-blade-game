@@ -128,7 +128,7 @@ class Creep_enemy(pygame.sprite.Sprite):
                 self.rect.x -= x_speed
 
     def attack_interval(self):
-        debug(self.collision_index)
+        # debug(self.collision_index)
         if self.collision_index >= 60:
             self.collision_index = 0
 
@@ -198,7 +198,7 @@ hero.add(Hero('example hero', HERO_HEALTH, HERO_MOVEMENT_SPEED, HERO_DAMAGE, HER
 creep_enemy_group = pygame.sprite.Group()
 
 creep_enemy_timer = pygame.USEREVENT + 1
-pygame.time.set_timer(creep_enemy_timer, 1500)
+pygame.time.set_timer(creep_enemy_timer, 3000)
 
 
 def main():
