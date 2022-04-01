@@ -23,6 +23,12 @@ class Hero(pygame.sprite.Sprite):
         self.image = self.hero_surface
         self.rect = self.image.get_rect(center=(WIN_WIDTH / 2, WIN_HEIGTH / 2))
 
+    def mouse_right_click(self):
+        pass
+        # 语法: 检验右键是否与某个小兵像素碰撞
+        # 若没碰撞 则调用移动函数到右键点击的位置
+        # 若碰撞 则先移动到与小兵一定距离 然后调用攻击函数
+
     def movement(self):
         # 每帧移动0.1秒, 更新后又重新定位为原来的位置, 所以一定要数值比1 大(能否为比1大的小数呢)
         # self.rect.y += 1

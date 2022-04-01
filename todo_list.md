@@ -4,6 +4,8 @@
 
 # 创建一个small blade game
 1. 使用normalize方法优化移动逻辑
+2. 优化hero类, 使用右键函数调用移动或者攻击
+   1. 等于说移动函数也需要优化
 
 > 接下来参考一下clear code的碰撞教程
 > 
