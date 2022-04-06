@@ -245,6 +245,7 @@ def main():
             # update实际上是类的成员函数的集合, 调用了update函数就相当于调用了类里面update函数下所有的成员函数
 
             collision_hero_creep_enemy()
+            debug(pygame.mouse.get_pos(), 10, 10)
 
             if hero.sprite.health <= 0:
                 game_active = 0
