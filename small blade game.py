@@ -19,7 +19,7 @@ class Hero(pygame.sprite.Sprite):
         self.hero_surface = pygame.transform.scale(
             pygame.image.load('assets/graphics/heroes/hero 45.png').convert_alpha(), (HERO_HEIGHT, HERO_WIDTH)
         )
-        # 以下两行只能名字叫做image和rect, 这是pygame定义的draw函数中规定的
+        # 以下两行只能名字叫做image和rect, 这是pygame定义的draw函数中规定的 更新: 并不是
         self.image = self.hero_surface
         self.rect = self.image.get_rect(center=(WIN_WIDTH / 2, WIN_HEIGTH / 2))
 
@@ -207,55 +207,53 @@ creep_enemy_timer = pygame.USEREVENT + 1
 pygame.time.set_timer(creep_enemy_timer, 3000)
 
 
-def main():
-    game_active = True
-    while True:
-        # event loop
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit(
 
-                )
-            if game_active:
-                if event.type == creep_enemy_timer:
-                    creep_enemy_group.add(
-                        Creep_enemy(CREEP_HEALTH, CREEP_MOVEMENT_SPEED, CREEP_DAMAGE,
-                                    (random.randint(0, WIN_WIDTH), random.randint(0, WIN_HEIGTH))))
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
-                    hero.sprite.health = 0
-            else:
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    game_active = True
-                    hero.sprite.rect.center = (WIN_WIDTH / 2, WIN_HEIGTH / 2)
-                    hero.sprite.health = HERO_HEALTH  # 重置血量
-                    creep_enemy_group.empty()
-                    # start_time = int(pygame.time.get_ticks() / 1000)
+game_active = True
+while True:
+    # event loop
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit(
 
-        # actual game loop
+            )
         if game_active:
-            screen.fill((255, 255, 255))
-            screen.blit(background_surface, background_rect)
-
-            # tuple 鼠标按键和鼠标位置
-            creep_enemy_group.draw(screen)
-            creep_enemy_group.update(hero.sprite.rect.midbottom)
-            hero.draw(screen)
-            hero.update()
-            # update实际上是类的成员函数的集合, 调用了update函数就相当于调用了类里面update函数下所有的成员函数
-
-            collision_hero_creep_enemy()
-            debug(pygame.mouse.get_pos(), 10, 10)
-
-            if hero.sprite.health <= 0:
-                game_active = 0
-
+            if event.type == creep_enemy_timer:
+                creep_enemy_group.add(
+                    Creep_enemy(CREEP_HEALTH, CREEP_MOVEMENT_SPEED, CREEP_DAMAGE,
+                                (random.randint(0, WIN_WIDTH), random.randint(0, WIN_HEIGTH))))
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
+                hero.sprite.health = 0
         else:
-            screen.fill((94, 129, 162))
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                game_active = True
+                hero.sprite.rect.center = (WIN_WIDTH / 2, WIN_HEIGTH / 2)
+                hero.sprite.health = HERO_HEALTH  # 重置血量
+                creep_enemy_group.empty()
+                # start_time = int(pygame.time.get_ticks() / 1000)
 
-        pygame.display.update()
-        clock.tick(FPS)
+    # actual game loop
+    if game_active:
+        screen.fill((255, 255, 255))
+        screen.blit(background_surface, background_rect)
+
+        # tuple 鼠标按键和鼠标位置
+        creep_enemy_group.draw(screen)
+        creep_enemy_group.update(hero.sprite.rect.midbottom)
+        hero.draw(screen)
+        hero.update()
+        # update实际上是类的成员函数的集合, 调用了update函数就相当于调用了类里面update函数下所有的成员函数
+
+        collision_hero_creep_enemy()
+        debug(pygame.mouse.get_pos(), 10, 10)
+
+        if hero.sprite.health <= 0:
+            game_active = 0
+
+    else:
+        screen.fill((94, 129, 162))
+
+    pygame.display.update()
+    clock.tick(FPS)
 
 
-if __name__ == "__main__":
-    main()
